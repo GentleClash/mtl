@@ -3,11 +3,12 @@ import pymupdf
 import langdetect
 import jieba
 import MeCab 
+from typing import List
 
 class pdfparser:
     PROGRESS_FILE = 'state/progress.json'
     TEXT_DIR = 'text/'
-    def __init__(self, file_path, word_limit=75, min_words=10):
+    def __init__(self, file_path, word_limit=50, min_words=10):
         self.setup_logging()
         self.file_path = file_path
         self.file_name = self._file_name_from_path(file_path)
@@ -15,7 +16,10 @@ class pdfparser:
         self.min_words = min_words
 
         try:
-            self.doc = pymupdf.open(file_path, filetype="pdf")
+            try:
+                self.doc = pymupdf.open(file_path)
+            except:
+                self.doc = pymupdf.open(file_path, filetype="pdf")
         except:
             print("Error opening file")
             self.logger.error(f"Error opening file {self.file_name}")
@@ -36,7 +40,7 @@ class pdfparser:
         self.text = self.convert()
 
 
-    def convert(self):
+    def convert(self)->str:
         """Convert the PDF to text and store if not already done and return the text."""
         text = ""
         if os.path.exists(f"{self.TEXT_DIR}{self.file_name}.txt"):
@@ -52,10 +56,11 @@ class pdfparser:
                     text += page.get_text()
         return text
 
-    def parse(self):
+    def parse(self)->str:
         """Returns a chunk of text from the document."""
         if self.cursor >= len(self.text):
-            self.logger(f"Reached end of document.")
+            self.logger.info(f"Reached end of {self.file_name}.")  # Debugging log
+            print(f"Reached end of {self.file_name}.")
             return None
         
         chunk = ""
@@ -77,7 +82,7 @@ class pdfparser:
         
         return chunk
     
-    def split_text(self, chunk):
+    def split_text(self, chunk)->List[str]:
         """Split the text into sentences."""
         if self.language == "ja":
             mecab = MeCab.Tagger("-Owakati")
@@ -87,7 +92,7 @@ class pdfparser:
         else:
             return chunk.split()
 
-    def _find_sentence_end(self, text):
+    def _find_sentence_end(self, text)->int:
         """
     Find the end of the sentence in the text.
     Returns the index of the end of the first complete sentence (relative to the text input).
@@ -134,7 +139,7 @@ class pdfparser:
 
 
         
-    def _detectlang(self, doc):
+    def _detectlang(self, doc)->str:
         """Detect the language of the text."""
         #Skip empty pages
         page=0
@@ -155,7 +160,7 @@ class pdfparser:
 
 
 
-    def load_progress(self, file_name):
+    def load_progress(self, file_name)->dict:
         """Load progress from the JSON file if it exists."""
         if os.path.exists(self.PROGRESS_FILE):
             try:
@@ -171,7 +176,7 @@ class pdfparser:
         return None
 
     
-    def save_progress(self, state):
+    def save_progress(self, state)->None:
         """Save the current progress to a JSON file."""
         progress = []
         if os.path.exists(self.PROGRESS_FILE):
@@ -184,7 +189,7 @@ class pdfparser:
                 progress = []
         for i in range(len(progress)):
             if progress[i]["file_name"] == self.file_name:
-                progress[i] = state
+                progress[i]["cursor"] = state["cursor"]
                 break
         else:
             progress.append(state)
@@ -193,7 +198,7 @@ class pdfparser:
         with open(self.PROGRESS_FILE, "w") as f:
             json.dump(progress, f)                
              
-    def _file_name_from_path(self, file_path):
+    def _file_name_from_path(self, file_path)->str:
         """Extract the file name from the file path."""
         if file_path.endswith('/'):
             file_path = file_path[:-1]
@@ -215,7 +220,8 @@ class pdfparser:
 
 #Test
 
-#pdf = pdfparser("static/1.pdf")
 
-while (input("Do you want to continue?")=="y"):
-    print(pdf.parse())
+if __name__=="__main__":
+    pdf = pdfparser("/home/ayush/Downloads/Untitled document.docx")
+    while (input("Do you want to continue?")=="y"):
+        print(pdf.parse())
