@@ -1,3 +1,7 @@
 google-generativeai
 langchain
 pymupdf
+flask
+mecab-python3
+jieba
+langdetect

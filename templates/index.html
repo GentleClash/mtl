@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MTL</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+    <script src="static/scripts.js"></script>
+</head>
+<body>
+    <!--A simple webpage with
+    1. A button to import file
+    2. A box to display current crunch of text to be translated
+    3. A box to preview and edit the translated text
+    4. A box to store all the translated text
+    5. A button to fetch next crunch of text
+    6. A button to accept current translation
+    7. A button to redo the current crunch of text-->
+
+    <div id="main">
+        <div id="import">
+            <input type="file" id="file" name="file" accept=".txt,.pdf,.epub">
+            <button id="importButton">Import</button>
+        </div>
+        <div id="current">
+            <h2>Current Crunch</h2>
+            <p id="currentText"></p>
+        </div>
+        <div id="translated">
+            <h2>Translated Text</h2>
+            <textarea id="translatedText"></textarea>
+        </div>
+        <div id="store">
+            <h2>Stored Translations</h2>
+            <textarea id="storedText"></textarea>
+        </div>
+        <div id="buttons">
+            <button id="nextButton">Next</button>
+            <button id="acceptButton">Accept</button>
+            <button id="redoButton">Redo</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,62 +2,45 @@ import os
 import google.generativeai as genai
 from google.generativeai import caching
 import datetime
-import time
 from dotenv import load_dotenv
 import base64
-import prompts
 
-load_dotenv()
-
-genai.configure(api_key=os.environ['API_KEY'])
-
-with open("test.txt", "r") as f:
-    text = f.readlines()
-
-
-verbose=True
-system_instructions=base64.b64decode(prompts.system_instructions).decode()
-inputs = base64.b64decode(prompts.inputs).decode()
-
-if verbose:
-    print(system_instructions)
-    print(inputs)
-exit()
-
-cache = caching.CachedContent.create(
-    model='models/gemini-1.5-flash-8b-001',
-    display_name='Testing the init model',
-    system_instruction=system_instructions,
-    ttl=datetime.timedelta(minutes=5)
-)
-
-
-
-model=genai.GenerativeModel.from_cached_content(cached_content=cache)
-glossaries = []
-while True:
-    text = str(input("Enter the text file to be translated: "))
-    with open(text, "r") as f:
-        text = f.read()
-    print("Enter new glossaries in format glossary, word (if any), once done type 'done'")
+def initialize_model():
+    """Initialize and configure the Gemini model"""
+    load_dotenv()
+    genai.configure(api_key=os.environ['API_KEY'])
+    system_instructions = os.environ['SYSTEM_INSTRUCTIONS']
+    inputs = os.environ['INPUTS']
     
-    while True:
-        glossary = str(input("Enter the glossary: "))
-        if glossary == "done":
-            break
-        jp, en = glossary.split(", ")
-        glossaries.append({jp: en})
+    system_instructions = base64.b64decode(system_instructions).decode()
+    inputs = base64.b64decode(inputs).decode()
 
     
+    cache = caching.CachedContent.create(
+        model='models/gemini-1.5-flash-8b-001',
+        display_name='Testing the init model',
+        system_instruction=system_instructions,
+        ttl=datetime.timedelta(minutes=10)
+    )
+    
+    return genai.GenerativeModel.from_cached_content(cached_content=cache), inputs
 
+def translate_text(text, glossaries, model, input_template):
+    """Translate text using the model with given glossaries"""
+    formatted_glossaries = "\n".join([f"{list(g.keys())[0]}: {list(g.values())[0]}" for g in glossaries])
     response = model.generate_content([
-    inputs.format(text, "\n".join([f"{list(g.keys())[0]}: {list(g.values())[0]}" for g in glossaries])),
+        input_template.format(text, formatted_glossaries),
     ])
+    return response.text
 
-    print(response.usage_metadata)
+def get_cached_content():
+    """Get list of cached content"""
+    return [str(c) for c in caching.CachedContent.list()]
 
-    print(response.text)
-
-    print("Cached content:")
-    for c in caching.CachedContent.list():
-        print(c)
+def process_glossaries(glossary_list):
+    """Process glossaries from list of strings in format 'jp, en'"""
+    processed = []
+    for glossary in glossary_list:
+        jp, en = glossary.split(", ")
+        processed.append({jp: en})
+    return processed
