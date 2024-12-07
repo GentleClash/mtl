@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MTL</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script src="/static/scripts.js"></script>
+</head>
+<body>
+
+    <div id="main">
+        <div id="metadata">
+            <h2>Metadata</h2>
+            <p id="metadataText"></p>
+        </div>
+        <div id="current">
+            <h2>Current Crunch</h2>
+            <p id="currentText"></p>
+        </div>
+        <div id="translated">
+            <h2>Translated Text</h2>
+            <textarea id="translatedText"></textarea>
+        </div>
+        <div id="store">
+            <h2>Stored Translations</h2>
+            <textarea id="storedText"></textarea>
+        </div>
+        <div id="buttons">
+            <button id="nextButton">Next</button>
+            <button id="acceptButton">Accept</button>
+            <button id="redoButton">Redo</button>
+        </div>
+    </div>
+    <script>
+        const metadata = {{ metadata|tojson }};
+        displayMetadata(metadata);
+        currentFile = metadata.name;
+    </script>
+</body>
+</html>

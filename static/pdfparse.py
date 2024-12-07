@@ -35,11 +35,21 @@ class pdfparser:
             os.makedirs(self.TEXT_DIR, exist_ok=True)
 
         self.state = self.load_progress(self.file_name)
-        self.cursor = self.state["cursor"] if self.state else 0
+        self.cursor = int(self.state["cursor"]) if self.state else 0
         self.language = self.state["language"] if self.state else self._detectlang(self.doc)
         self.text = self.convert()
+        self.previous_chunk = self.state["previous_chunk"] if self.state else ""
+        self.previous_translation = self.state["previous_translation"] if self.state else ""
 
-
+    def get_metadata(self)->dict:
+        """Get metadata of the document."""
+        metadata = {
+            "name": self.file_name,
+            "language": self.language,
+            "word_limit": self.word_limit,
+            "length": len(self.doc)
+        }
+        return metadata
     def convert(self)->str:
         """Convert the PDF to text and store if not already done and return the text."""
         text = ""
@@ -189,8 +199,16 @@ class pdfparser:
                 progress = []
         for i in range(len(progress)):
             if progress[i]["file_name"] == self.file_name:
-                progress[i]["cursor"] = state["cursor"]
+                #Update with only the fields provided
+                progress[i].update(state)
+
                 break
+            """ progress[i].update({
+                "cursor": state["cursor"],
+                "previous_chunk": state.get("previous_chunk", ""),
+                "previous_translation": state.get("previous_translation", "")
+                })"""
+                
         else:
             progress.append(state)
 
@@ -202,7 +220,8 @@ class pdfparser:
         """Extract the file name from the file path."""
         if file_path.endswith('/'):
             file_path = file_path[:-1]
-        #assert file_path.split('.')[-1] in {"pdf", "txt", "docx", "epub"}, "Unsupported file format"
+        #assert file_path.split('.')[-1] in {"pdf", "txt", "docx", "epub"}, "Unsupported file format"f
+
         return file_path.split('/')[-1]
 
     def setup_logging(self):
@@ -222,6 +241,6 @@ class pdfparser:
 
 
 if __name__=="__main__":
-    pdf = pdfparser("/home/ayush/Downloads/Untitled document.docx")
+    pdf = pdfparser("static/uploads/1.pdf")
     while (input("Do you want to continue?")=="y"):
         print(pdf.parse())
