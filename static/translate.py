@@ -4,7 +4,7 @@ from google.generativeai import caching
 import datetime
 from dotenv import load_dotenv
 import base64
-from prompts import UserPrompt, TranslationOutput
+from static.prompts import UserPrompt, TranslationOutput
 
 os.environ["GRPC_VERBOSITY"] = "ERROR"
 os.environ["GLOG_minloglevel"] = "2"

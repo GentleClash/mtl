@@ -137,6 +137,7 @@ def manual_edit(filename):
             })
             return parser.language
         except Exception as e:
+            print(f"Error initializing progress: {str(e)}")
             return None
 
     # Check if progress.json exists, if not, initialize it
@@ -175,13 +176,13 @@ def manual_edit(filename):
             for entry in progress:
                 if entry.get('file_name') == filename:
                     return render_template(
-                        'edit_index.html', 
-                        filename=filename,
-                        cursor=entry.get('cursor', 0),
-                        last_chunk=entry.get('previous_chunk', ""),
-                        last_translation=entry.get('previous_translation', ""),
-                        language=entry.get('language', "")
-                    )
+                            'edit_index.html', 
+                            file_name=filename,
+                            cursor=entry.get('cursor', 0),
+                            previous_chunk=entry.get('previous_chunk', ""),
+                            previous_translation=entry.get('previous_translation', ""),
+                            language=entry.get('language', "")
+                        )
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

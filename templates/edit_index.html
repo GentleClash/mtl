@@ -86,11 +86,12 @@
     <button id="cancelButton">Cancel</button>
     <script>
         window.onload = function() {
-            document.getElementById('file_name').value = "{{ file_name }}";
-            document.getElementById('cursor').value = "{{ cursor }}";
-            document.getElementById('previous_chunk').value = "{{ previous_chunk }}";
-            document.getElementById('previous_translation').value = "{{ previous_translation }}";
-            document.getElementById('language').value = "{{ language }}";
+
+            document.getElementById('file_name').value = {{ file_name|tojson|safe }};
+            document.getElementById('cursor').value = {{ cursor|tojson|safe }};
+            document.getElementById('previous_chunk').value = {{ previous_chunk|tojson|safe }};
+            document.getElementById('previous_translation').value = {{ previous_translation|tojson|safe }};
+            document.getElementById('language').value = {{ language|tojson|safe }};
         };
         document.getElementById('manualEditCheckbox').addEventListener('change', function() {
             const isChecked = this.checked;

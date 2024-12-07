@@ -12,6 +12,9 @@
             <h2>Metadata</h2>
             <p id="metadataText"></p>
         </div>
+        <div id="buttons">
+            <button id="nextButton">Next</button>
+        </div>
         <div id="current">
             <h2>Current Crunch</h2>
             <p id="currentText"></p>
@@ -25,15 +28,18 @@
             <textarea id="storedText"></textarea>
         </div>
         <div id="buttons">
-            <button id="nextButton">Next</button>
             <button id="acceptButton">Accept</button>
             <button id="redoButton">Redo</button>
+            <button id="closeButton">Close</button>
         </div>
     </div>
     <script>
         const metadata = {{ metadata|tojson }};
         displayMetadata(metadata);
         currentFile = metadata.name;
+        document.getElementById('closeButton').addEventListener('click', function() {
+            window.location.href = '/';
+        });
     </script>
 </body>
 </html>
