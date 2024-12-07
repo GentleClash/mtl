@@ -1,5 +1,5 @@
 # Couldn't bring myself to delete the files because of the time they took, so I'm just dumping them here.
 
 
-![No I won't do it](https://c.tenor.com/o5HuqeTAXDAAAAAd/tenor.gif)
+![No I won't do it](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c7050c2e-d380-4c0b-b056-06180fb73671/d8f9zjv-5d0f6a54-19dd-4e8d-ad79-c4ad95364e85.jpg/v1/fit/w_400,h_300,q_70,strp/mizuki_pyun_meme_right_in_the_kokoro_by_mizukipyun_d8f9zjv-375w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2M3MDUwYzJlLWQzODAtNGMwYi1iMDU2LTA2MTgwZmI3MzY3MVwvZDhmOXpqdi01ZDBmNmE1NC0xOWRkLTRlOGQtYWQ3OS1jNGFkOTUzNjRlODUuanBnIiwiaGVpZ2h0IjoiPD0zMDAiLCJ3aWR0aCI6Ijw9NDAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLndhdGVybWFyayJdLCJ3bWsiOnsicGF0aCI6Ilwvd21cL2M3MDUwYzJlLWQzODAtNGMwYi1iMDU2LTA2MTgwZmI3MzY3MVwvbWl6dWtpcHl1bi00LnBuZyIsIm9wYWNpdHkiOjk1LCJwcm9wb3J0aW9ucyI6MC40NSwiZ3Jhdml0eSI6ImNlbnRlciJ9fQ.D24_b_YiTmAhzhePYCHCAt7cTv0YMW_Mxi2y-PB_z3Y)
 
