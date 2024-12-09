@@ -12,6 +12,16 @@
             <h2>Metadata</h2>
             <p id="metadataText"></p>
         </div>
+        <div id="literalTranslations">
+            <h2>Glossaries</h2>
+            <div id="wordList">
+            </div>
+            <div class="translation-input">
+            <input type="text" id="wordInput" placeholder="Word">
+            <input type="text" id="translationInput" placeholder="Translation">
+            <button id="addTranslation">Add</button>
+            </div>
+        </div>
         <div id="buttons">
             <button id="nextButton">Next</button>
         </div>
@@ -34,7 +44,7 @@
         </div>
     </div>
     <script>
-        const metadata = {{ metadata|tojson }};
+        const metadata = {{ metadata|tojson}};
         displayMetadata(metadata);
         currentFile = metadata.name;
         document.getElementById('closeButton').addEventListener('click', function() {

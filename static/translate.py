@@ -16,7 +16,7 @@ def initialize_model():
     system_instructions = UserPrompt().system_instructions
     inputs = UserPrompt().inputs
 
-    
+    print("Creating cached content")
     cache = caching.CachedContent.create(
         model='models/gemini-1.5-flash-8b-001',
         display_name='Testing the init model',
@@ -59,16 +59,9 @@ def process_glossaries(glossary_list):
 
 
 if __name__=="__main__":
-    text = """「だから、私は『ミス・ミューズ』に応募した覚えはないんです！」
- 珍しく燈とう子こ先輩が声を荒らげてそう言った。
-「でもね、ここにちゃんと桜さくら島じまさんが所属するサークルか
-ら、参加希望が申請されているんだよ。これ、協議会に登録している
-正式なサークルのメルアドでしょ」
- サークル協議会の担当者もさっきから同じ言葉を繰り返している。
- 俺はこのやり取りを聞いていて、微妙な違和感を感じていた。
- 改めてこれまでの状況を振り返ってみると……"""
-    previous_translation = ""
-    previous_chunk = ""
+    previous_chunk = """」 「それは解わかりますが……」 　燈子先輩が渋い調子で答える。 『メイ・フェスティバル』。通称は『春祭』と呼ばれているこのイ ベントは、言ってみれば『春の大学祭』だ。"""
+    previous_translation = " \"I understand, but...\".  Senior Tsukiko replies with a thoughtful tone.  \"The Mei Festival\".  Its nickname is \"Spring Festival\". This event is, in essence, a \"Spring University Festival.\""
+    text = "ただ通常の大学祭とは 違って外部に告知などはせず、参加者は主に城都大生を対象として いる。（他学生を排除している訳ではない） 　その主な趣旨は彼が言った通り「新入生により早く大学生活に馴 な染じんでもらおう」といったもの. PROMPT_TEST_NOTICE : GENERATE EXTRACTED TERMS AND TRANSLATION NOTES FOR THIS CHUNK."
 
     model, inputs = initialize_model()
-    print(translate_text(text=text, model=model, input_template=inputs, previous_chunk=previous_chunk, previous_translation=previous_translation, glossaries=""))
+    print(translate_text(text=text, model=model, input_template=inputs, previous_chunk=previous_chunk, previous_translation=previous_translation, glossaries={"ミス・ミューズ" : "Miss Tokyo"}))

@@ -85,3 +85,32 @@ input[type="file"] {
     border-radius: 4px;
     min-height: 100px;
 }
+
+/* Translation input section styling */
+.translation-input {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.translation-input input[type="text"] {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.translation-input input[type="text"]:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.translation-input button {
+    min-width: 80px;
+}

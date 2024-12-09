@@ -8,6 +8,7 @@ from typing import List
 class pdfparser:
     PROGRESS_FILE = 'state/progress.json'
     TEXT_DIR = 'text/'
+    TRANSLATED_DIR = 'translated/'
     def __init__(self, file_path, word_limit=50, min_words=10):
         self.setup_logging()
         self.file_path = file_path
@@ -33,6 +34,12 @@ class pdfparser:
                 json.dump([], f)
         if not os.path.exists(self.TEXT_DIR):
             os.makedirs(self.TEXT_DIR, exist_ok=True)
+        if not os.path.exists(self.TRANSLATED_DIR):
+            os.makedirs(self.TRANSLATED_DIR, exist_ok=True)
+        self.TRANSLATED_FILE = os.path.join(self.TRANSLATED_DIR, self.file_name + ".txt")
+        #create if not exists, append nothing if exists
+        with open(self.TRANSLATED_FILE, "a+") as f:
+            f.write("")
 
         self.state = self.load_progress(self.file_name)
         self.cursor = int(self.state["cursor"]) if self.state else 0
@@ -197,20 +204,22 @@ class pdfparser:
             except json.JSONDecodeError:
                 self.logger.warning(f"{self.PROGRESS_FILE} is corrupted. Overwriting.")
                 progress = []
+        
+
+        found = False
         for i in range(len(progress)):
             if progress[i]["file_name"] == self.file_name:
                 #Update with only the fields provided
                 progress[i].update(state)
-
+                found = True
                 break
-            """ progress[i].update({
-                "cursor": state["cursor"],
-                "previous_chunk": state.get("previous_chunk", ""),
-                "previous_translation": state.get("previous_translation", "")
-                })"""
                 
-        else:
+        if not found:
             progress.append(state)
+
+        if "previous_translation" in state:
+            with open(self.TRANSLATED_FILE, "a+") as f:
+                f.write(state["previous_translation"])
 
     # Write back to the file
         with open(self.PROGRESS_FILE, "w") as f:
